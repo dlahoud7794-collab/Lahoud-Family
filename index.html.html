@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lahoud Family — Summer 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&family=Mrs+Saint+Delafield&family=Share+Tech+Mono&family=Bebas+Neue&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/* ════════════════════════════
+   LANDING PAGE
+════════════════════════════ */
+#landing {
+  min-height: 100vh;
+  background: #0E0B08;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle grain */
+#landing::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.45;
+}
+
+.landing-header {
+  text-align: center;
+  margin-bottom: 64px;
+  position: relative; z-index: 2;
+  opacity: 0;
+  animation: landFade 1s ease 0.3s forwards;
+}
+
+.landing-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: rgba(184,150,90,0.7);
+  margin-bottom: 20px;
+}
+
+.landing-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 7vw, 72px);
+  font-weight: 400;
+  color: #FAF6EF;
+  line-height: 1.1;
+}
+
+.landing-title em {
+  font-style: italic;
+  color: #C4603A;
+}
+
+.landing-rule {
+  width: 48px;
+  height: 1px;
+  background: rgba(184,150,90,0.5);
+  margin: 24px auto 0;
+}
+
+.landing-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(16px, 2.5vw, 20px);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(250,246,239,0.4);
+  margin-top: 16px;
+}
+
+/* CARDS */
+.cards-row {
+  display: flex;
+  gap: 28px;
+  align-items: stretch;
+  position: relative; z-index: 2;
+  opacity: 0;
+  animation: landFade 1s ease 0.8s forwards;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.name-card {
+  width: clamp(260px, 38vw, 360px);
+  min-height: 420px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border: 1px solid rgba(250,246,239,0.08);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 40px 36px;
+}
+
+.name-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Girls card */
+.card-girls {
+  background: linear-gradient(160deg, #1A0E08 0%, #2C1810 50%, #1A0E08 100%);
+  border-color: rgba(196,96,58,0.2);
+}
+.card-girls:hover { border-color: rgba(196,96,58,0.5); }
+
+.card-girls .card-glow {
+  background: radial-gradient(ellipse at 60% 30%, rgba(196,96,58,0.2) 0%, transparent 65%);
+}
+
+/* Ezra card */
+.card-ezra {
+  background: linear-gradient(160deg, #020C04 0%, #041808 50%, #020C04 100%);
+  border-color: rgba(0,255,65,0.12);
+}
+.card-ezra:hover { border-color: rgba(0,255,65,0.35); }
+
+.card-ezra .card-glow {
+  background: radial-gradient(ellipse at 40% 30%, rgba(0,255,65,0.12) 0%, transparent 65%);
+}
+
+.card-glow {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.card-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.card-girls .card-tag { color: rgba(196,96,58,0.7); }
+.card-ezra .card-tag { color: rgba(0,255,65,0.5); font-family: 'Share Tech Mono', monospace; }
+
+.card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 7vw, 72px);
+  font-weight: 700;
+  line-height: 0.95;
+  margin-bottom: 20px;
+}
+
+.card-girls .card-name { color: #FAF6EF; }
+.card-ezra .card-name {
+  font-family: 'Bebas Neue', sans-serif;
+  color: #00FF41;
+  text-shadow: 0 0 20px rgba(0,255,65,0.3);
+  letter-spacing: 2px;
+}
+
+.card-desc {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.card-girls .card-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(250,246,239,0.5);
+}
+.card-ezra .card-desc {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: rgba(0,255,65,0.45);
+}
+
+.card-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-girls .card-cta {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(196,96,58,0.8);
+}
+
+.card-ezra .card-cta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(0,255,65,0.6);
+}
+
+.cta-line {
+  height: 1px;
+  width: 32px;
+  transition: width 0.3s;
+}
+.card-girls .cta-line { background: rgba(196,96,58,0.6); }
+.card-ezra .cta-line { background: rgba(0,255,65,0.5); }
+
+.name-card:hover .cta-line { width: 56px; }
+
+/* corner accents */
+.card-corner {
+  position: absolute;
+  width: 20px; height: 20px;
+  pointer-events: none;
+}
+.card-corner.tl { top: 16px; left: 16px; border-top: 1px solid; border-left: 1px solid; }
+.card-corner.br { bottom: 16px; right: 16px; border-bottom: 1px solid; border-right: 1px solid; }
+.card-girls .card-corner { border-color: rgba(196,96,58,0.25); }
+.card-ezra .card-corner { border-color: rgba(0,255,65,0.2); }
+
+/* decorative bg text */
+.card-bg-text {
+  position: absolute;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  top: 20px; right: -10px;
+  opacity: 0.04;
+}
+.card-girls .card-bg-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 140px;
+  color: #C4603A;
+}
+.card-ezra .card-bg-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 120px;
+  color: #00FF41;
+  opacity: 0.06;
+}
+
+@keyframes landFade {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ════════════════════════════
+   EXPERIENCE WRAPPER
+════════════════════════════ */
+#experience-wrapper {
+  display: none;
+  position: relative;
+}
+
+.back-btn {
+  position: fixed;
+  top: 16px; left: 16px;
+  z-index: 9999;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(250,246,239,0.5);
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(250,246,239,0.15);
+  padding: 8px 14px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s;
+  display: none;
+}
+.back-btn:hover { color: #FAF6EF; border-color: rgba(250,246,239,0.4); }
+.back-btn.show { display: block; }
+
+#experience-content { width: 100%; }
+
+/* ════════════════════════════
+   GIRLS EXPERIENCE (injected)
+════════════════════════════ */
+#girls-experience { display: none; }
+#ezra-experience { display: none; }
+
+
+/* ════════════════════════════
+   GIRLS STYLES
+════════════════════════════ */
+.g-body {
+  background: #FAF6EF;
+  color: #2C2420;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+.g-progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #C4572A, #B8860B);
+  z-index: 200;
+  transition: width 0.3s;
+}
+
+#g-screen-letter {
+  min-height: 100vh;
+  background: #FFFDF9;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 60px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.g-paper {
+  max-width: 620px;
+  width: 100%;
+  background: #FFFDF9;
+  padding: clamp(40px, 6vw, 72px);
+  position: relative;
+  box-shadow: 0 4px 60px rgba(44,36,32,0.08), 0 1px 4px rgba(44,36,32,0.06);
+  opacity: 0;
+  transform: translateY(24px);
+  animation: g-riseIn 1.2s ease 0.3s forwards;
+}
+
+@keyframes g-riseIn { to { opacity: 1; transform: translateY(0); } }
+
+.g-paper::before {
+  content: '';
+  position: absolute;
+  top: 0; left: clamp(40px, 8vw, 80px);
+  width: 1px; height: 100%;
+  background: rgba(196,87,42,0.12);
+}
+
+.g-letter-date {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 400;
+  letter-spacing: 3px; color: #8C7B6B;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  opacity: 0; animation: g-fadeIn 0.8s ease 1s forwards;
+}
+.g-letter-greeting {
+  font-family: 'Mrs Saint Delafield', cursive;
+  font-size: clamp(44px, 8vw, 72px);
+  color: #C4572A; line-height: 1.1;
+  margin-bottom: 28px;
+  opacity: 0; animation: g-fadeIn 0.8s ease 1.3s forwards;
+}
+.g-letter-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(17px, 2.2vw, 21px);
+  font-weight: 300; line-height: 1.85;
+  color: #2C2420; margin-bottom: 32px;
+  opacity: 0; animation: g-fadeIn 0.8s ease 1.6s forwards;
+}
+.g-letter-body em { font-style: italic; color: #C4572A; }
+.g-letter-sig {
+  font-family: 'Mrs Saint Delafield', cursive;
+  font-size: clamp(32px, 5vw, 48px);
+  color: #2C2420;
+  opacity: 0; animation: g-fadeIn 0.8s ease 2s forwards;
+}
+.g-letter-ps {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px; font-style: italic;
+  color: #8C7B6B; margin-top: 20px;
+  opacity: 0; animation: g-fadeIn 0.8s ease 2.3s forwards;
+}
+.g-scroll-hint {
+  position: absolute; bottom: 32px;
+  left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: g-fadeIn 0.8s ease 3s forwards;
+}
+.g-scroll-hint span {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; letter-spacing: 3px;
+  color: #8C7B6B; text-transform: uppercase;
+}
+.g-scroll-arrow {
+  width: 1px; height: 32px;
+  background: linear-gradient(to bottom, #C4572A, transparent);
+  animation: g-arrowPulse 2s ease infinite 3.2s;
+}
+@keyframes g-arrowPulse {
+  0%,100%{opacity:1;transform:scaleY(1)}
+  50%{opacity:0.4;transform:scaleY(0.6)}
+}
+@keyframes g-fadeIn { to { opacity: 1; } }
+
+#g-screen-reveal {
+  min-height: 100vh;
+  background: #2C2420;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 80px clamp(24px, 8vw, 100px);
+  text-align: center;
+  position: relative; overflow: hidden;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+#g-screen-reveal.visible { opacity: 1; transform: translateY(0); }
+
+.g-grain {
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none; opacity: 0.5;
+}
+.g-glow {
+  position: absolute;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(196,87,42,0.12) 0%, transparent 70%);
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  animation: g-breathe 4s ease-in-out infinite;
+}
+@keyframes g-breathe {
+  0%,100%{transform:translate(-50%,-50%) scale(1)}
+  50%{transform:translate(-50%,-50%) scale(1.15)}
+}
+.g-chapter-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; letter-spacing: 5px;
+  color: #E8845A; text-transform: uppercase;
+  margin-bottom: 24px; position: relative; z-index: 2;
+}
+.g-reveal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(56px, 12vw, 140px);
+  font-weight: 700; line-height: 0.95;
+  color: #FAF6EF; margin-bottom: 8px;
+  position: relative; z-index: 2;
+}
+.g-reveal-title em { font-style: italic; color: #E8845A; display: block; }
+.g-reveal-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: 300; font-style: italic;
+  color: rgba(250,246,239,0.6);
+  margin-bottom: 56px; position: relative; z-index: 2;
+}
+.g-moodboard {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12px; max-width: 700px; width: 100%;
+  margin-bottom: 48px; position: relative; z-index: 2;
+}
+@media(max-width:600px){.g-moodboard{grid-template-columns:repeat(2,1fr);}.cards-row{flex-direction:column;align-items:center;}}
+.g-mood-card {
+  background: rgba(250,246,239,0.07);
+  border: 1px solid rgba(250,246,239,0.12);
+  padding: 24px 16px; text-align: center;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.g-mood-card::before {
+  content:''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(196,87,42,0.1), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.g-mood-card:hover::before{opacity:1;}
+.g-mood-card:hover{border-color:rgba(196,87,42,0.4);transform:translateY(-3px);}
+.g-mood-emoji{font-size:28px;display:block;margin-bottom:10px;}
+.g-mood-label{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:400;color:rgba(250,246,239,0.8);display:block;margin-bottom:4px;}
+.g-mood-sub{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;color:rgba(250,246,239,0.35);display:block;}
+
+.g-chapters {
+  max-width: 620px; width: 100%;
+  position: relative; z-index: 2;
+  margin-bottom: 40px;
+}
+.g-chapters-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; color: rgba(250,246,239,0.3);
+  margin-bottom: 20px;
+}
+.g-chapter-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(250,246,239,0.06);
+  text-align: left;
+}
+.g-chapter-row:last-child{border-bottom:none;}
+.g-ch-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.g-ch-dot.live{background:#E8845A;box-shadow:0 0 10px rgba(232,132,90,0.7);animation:g-dotPulse 2s ease infinite;}
+.g-ch-dot.coming{background:transparent;border:1px solid rgba(250,246,239,0.25);}
+.g-ch-dot.locked{background:rgba(250,246,239,0.1);}
+@keyframes g-dotPulse{0%,100%{box-shadow:0 0 6px rgba(232,132,90,0.7)}50%{box-shadow:0 0 18px rgba(232,132,90,0.9),0 0 30px rgba(232,132,90,0.3)}}
+.g-ch-month{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:rgba(250,246,239,0.9);min-width:72px;}
+.g-ch-desc{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;color:rgba(250,246,239,0.55);flex:1;}
+.g-ch-tag{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:100px;}
+.g-ch-tag.live{background:#C4572A;color:#FAF6EF;}
+.g-ch-tag.soon{border:1px solid rgba(250,246,239,0.2);color:rgba(250,246,239,0.4);}
+.g-ch-tag.locked{border:1px solid rgba(250,246,239,0.1);color:rgba(250,246,239,0.2);}
+
+.g-countdown {
+  max-width: 620px; width: 100%;
+  position: relative; z-index: 2;
+  border: 1px solid rgba(250,246,239,0.1);
+  padding: 28px 32px; text-align: center;
+  margin-bottom: 32px;
+  background: rgba(250,246,239,0.03);
+}
+.g-cd-label{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:rgba(250,246,239,0.45);margin-bottom:16px;letter-spacing:1px;}
+.g-cd-row{display:flex;justify-content:center;align-items:flex-end;gap:24px;flex-wrap:wrap;}
+.g-cd-unit{text-align:center;}
+.g-cd-num{font-family:'Playfair Display',serif;font-size:clamp(36px,7vw,64px);font-weight:700;color:#FAF6EF;line-height:1;display:block;}
+.g-cd-u{font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:3px;color:rgba(250,246,239,0.3);text-transform:uppercase;margin-top:4px;}
+.g-cd-dot{font-family:'Playfair Display',serif;font-size:40px;color:rgba(196,87,42,0.6);line-height:1;margin-bottom:22px;}
+.g-footer-sig{font-family:'Mrs Saint Delafield',cursive;font-size:clamp(28px,5vw,40px);color:rgba(250,246,239,0.3);position:relative;z-index:2;}
+
+
+/* ════════════════════════════
+   EZRA STYLES
+════════════════════════════ */
+.e-body {
+  background: #020C04;
+  color: #00FF41;
+  font-family: 'Share Tech Mono', monospace;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+.e-body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,0.03) 2px,rgba(0,255,65,0.03) 4px);
+  pointer-events: none; z-index: 1000;
+}
+.e-body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 999; opacity: 0.4;
+}
+.e-slide{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;position:relative;overflow:hidden;}
+
+#e-screen-boot{background:#020C04;text-align:left;align-items:flex-start;padding:40px clamp(24px,8vw,120px);}
+.e-boot-line{font-family:'Share Tech Mono',monospace;font-size:clamp(12px,1.8vw,16px);color:#00cc33;line-height:1.8;opacity:0;white-space:nowrap;overflow:hidden;}
+.e-boot-line.show{animation:e-typein 0.05s ease forwards;}
+.e-boot-line.blink::after{content:'█';animation:e-blink 0.8s step-end infinite;color:#00FF41;}
+@keyframes e-typein{to{opacity:1;}}
+@keyframes e-blink{0%,100%{opacity:1}50%{opacity:0}}
+
+#e-screen-classified{background:#020C04;text-align:center;display:none;}
+.e-file-stamp{position:relative;border:3px solid #00FF41;padding:clamp(40px,6vw,80px) clamp(40px,8vw,100px);max-width:800px;width:100%;box-shadow:0 0 40px rgba(0,255,65,0.15),inset 0 0 40px rgba(0,255,65,0.05);}
+.e-file-stamp::before{content:'';position:absolute;inset:6px;border:1px solid rgba(0,255,65,0.2);pointer-events:none;}
+.e-file-number{font-family:'Share Tech Mono',monospace;font-size:clamp(10px,1.5vw,13px);color:rgba(0,255,65,0.5);letter-spacing:4px;margin-bottom:32px;display:block;}
+.e-classified-word{font-family:'Bebas Neue',sans-serif;font-size:clamp(60px,14vw,160px);line-height:1;color:transparent;-webkit-text-stroke:2px #FF3131;letter-spacing:8px;transform:rotate(-8deg);display:block;margin:0 auto 32px;text-shadow:0 0 40px rgba(255,49,49,0.4);animation:e-glitchStamp 0.3s ease 0.2s both;}
+@keyframes e-glitchStamp{0%{transform:rotate(-8deg) scale(2);opacity:0;}60%{transform:rotate(-8deg) scale(0.95);opacity:1;}80%{transform:rotate(-8deg) scale(1.02);}100%{transform:rotate(-8deg) scale(1);opacity:1;}}
+.e-file-title{font-family:'Orbitron',sans-serif;font-size:clamp(11px,2vw,16px);font-weight:700;letter-spacing:6px;color:#00FF41;margin-bottom:8px;text-transform:uppercase;}
+.e-file-sub{font-family:'Share Tech Mono',monospace;font-size:clamp(10px,1.5vw,13px);color:rgba(0,255,65,0.5);letter-spacing:2px;}
+
+#e-screen-main{background:#020C04;display:none;text-align:center;gap:0;flex-direction:column;justify-content:flex-start;padding-top:0;}
+.e-top-bar{width:100%;background:#00FF41;color:#020C04;font-family:'Share Tech Mono',monospace;font-size:clamp(10px,1.5vw,13px);letter-spacing:3px;padding:10px 24px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.e-main-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;max-width:900px;margin:0 auto;width:100%;}
+.e-transmission{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:4px;color:#FFB800;margin-bottom:24px;animation:e-flicker 3s ease infinite;}
+@keyframes e-flicker{0%,90%,100%{opacity:1}92%{opacity:0.3}94%{opacity:1}96%{opacity:0.2}98%{opacity:1}}
+.e-main-heading{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,10vw,120px);line-height:0.95;color:#00FF41;text-shadow:0 0 30px rgba(0,255,65,0.5);margin-bottom:8px;animation:e-glowPulse 3s ease-in-out infinite;}
+@keyframes e-glowPulse{0%,100%{text-shadow:0 0 30px rgba(0,255,65,0.5)}50%{text-shadow:0 0 60px rgba(0,255,65,0.9),0 0 100px rgba(0,255,65,0.3)}}
+.e-main-heading .e-red{color:#FF3131;text-shadow:0 0 30px rgba(255,49,49,0.5);}
+.e-main-sub{font-family:'Share Tech Mono',monospace;font-size:clamp(13px,2vw,17px);color:rgba(0,255,65,0.7);letter-spacing:3px;margin-bottom:48px;}
+
+.e-intel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;width:100%;max-width:700px;margin-bottom:48px;}
+@media(max-width:600px){.e-intel-grid{grid-template-columns:1fr;}}
+.e-intel-box{border:1px solid rgba(0,255,65,0.3);padding:20px;text-align:left;position:relative;background:rgba(0,255,65,0.03);transition:all 0.2s;}
+.e-intel-box:hover{background:rgba(0,255,65,0.06);border-color:rgba(0,255,65,0.6);}
+.e-intel-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(0,255,65,0.4);display:block;margin-bottom:8px;}
+.e-intel-value{font-family:'Orbitron',sans-serif;font-size:clamp(13px,2vw,16px);font-weight:700;color:#00FF41;}
+.e-intel-value.redacted{color:rgba(0,255,65,0.4);letter-spacing:2px;}
+
+.e-drops-section{max-width:620px;width:100%;margin-bottom:40px;border:1px solid rgba(0,255,65,0.15);padding:24px;}
+.e-drops-title{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(0,255,65,0.4);margin-bottom:20px;}
+.e-drop-row{display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid rgba(0,255,65,0.08);}
+.e-drop-row:last-child{border-bottom:none;}
+.e-drop-status{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.e-drop-status.live{background:#00FF41;box-shadow:0 0 10px rgba(0,255,65,0.8);animation:e-dotPulse 2s ease infinite;}
+.e-drop-status.pending{background:transparent;border:1px solid rgba(0,255,65,0.3);}
+.e-drop-status.locked{background:rgba(0,255,65,0.1);}
+@keyframes e-dotPulse{0%,100%{box-shadow:0 0 6px rgba(0,255,65,0.8)}50%{box-shadow:0 0 18px rgba(0,255,65,1),0 0 30px rgba(0,255,65,0.4)}}
+.e-drop-month{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:rgba(0,255,65,0.7);min-width:64px;}
+.e-drop-name{font-family:'Share Tech Mono',monospace;font-size:12px;color:rgba(0,255,65,0.5);flex:1;}
+.e-drop-badge{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;padding:3px 10px;}
+.e-drop-badge.live{background:#00FF41;color:#020C04;}
+.e-drop-badge.soon{border:1px solid rgba(0,255,65,0.3);color:rgba(0,255,65,0.4);}
+.e-drop-badge.locked{border:1px solid rgba(0,255,65,0.1);color:rgba(0,255,65,0.2);}
+
+.e-countdown{max-width:620px;width:100%;margin-bottom:32px;}
+.e-cd-label{font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:3px;color:rgba(0,255,65,0.4);margin-bottom:16px;}
+.e-cd-boxes{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;}
+.e-cd-box{border:1px solid rgba(0,255,65,0.3);padding:16px 20px;text-align:center;min-width:80px;background:rgba(0,255,65,0.03);}
+.e-cd-num{font-family:'Orbitron',sans-serif;font-size:clamp(24px,5vw,40px);font-weight:700;color:#00FF41;text-shadow:0 0 20px rgba(0,255,65,0.5);display:block;line-height:1;}
+.e-cd-unit{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(0,255,65,0.3);margin-top:6px;display:block;}
+.e-cd-sep{font-family:'Orbitron',sans-serif;font-size:32px;color:rgba(0,255,65,0.3);line-height:1;}
+.e-footer-line{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(0,255,65,0.25);margin-top:8px;}
+
+.e-skip-btn{position:fixed;bottom:24px;right:24px;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;color:rgba(0,255,65,0.4);background:none;border:1px solid rgba(0,255,65,0.2);padding:8px 16px;cursor:pointer;z-index:700;transition:all 0.2s;display:none;}
+.e-skip-btn:hover{color:#00FF41;border-color:rgba(0,255,65,0.6);}
+.e-skip-btn.show{display:block;}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════
+     LANDING PAGE
+════════════════════════════ -->
+<div id="landing">
+  <div class="landing-header">
+    <p class="landing-eyebrow">Summer 2026 &nbsp;·&nbsp; A Lahoud Family Production</p>
+    <h1 class="landing-title">Select<br><em>your name.</em></h1>
+    <div class="landing-rule"></div>
+    <p class="landing-sub">Your drop is waiting.</p>
+  </div>
+
+  <div class="cards-row">
+    <!-- GIRLS CARD -->
+    <div class="name-card card-girls" onclick="launchGirls()">
+      <div class="card-glow"></div>
+      <div class="card-corner tl"></div>
+      <div class="card-corner br"></div>
+      <div class="card-bg-text">L</div>
+      <p class="card-tag">The Lahoud Edit</p>
+      <h2 class="card-name">Livi &<br>Nora</h2>
+      <p class="card-desc">Chapter 01 is live. Your summer begins here.</p>
+      <div class="card-cta">
+        <div class="cta-line"></div>
+        <span>Open your drop</span>
+      </div>
+    </div>
+
+    <!-- EZRA CARD -->
+    <div class="name-card card-ezra" onclick="launchEzra()">
+      <div class="card-glow"></div>
+      <div class="card-corner tl"></div>
+      <div class="card-corner br"></div>
+      <div class="card-bg-text">E</div>
+      <p class="card-tag">// THE LAHOUD FILES //</p>
+      <h2 class="card-name">EZRA</h2>
+      <p class="card-desc">> DROP_001 // READY TO DECRYPT</p>
+      <div class="card-cta">
+        <div class="cta-line"></div>
+        <span>> ACCESS FILE</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     BACK BUTTON
+════════════════════════════ -->
+<button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
+
+<!-- ════════════════════════════
+     GIRLS EXPERIENCE
+════════════════════════════ -->
+<div id="girls-experience">
+  <div class="g-body">
+    <div class="g-progress" id="g-progressBar" style="width:0%"></div>
+
+    <section id="g-screen-letter">
+      <div class="g-paper">
+        <p class="g-letter-date">March 2026 &nbsp;·&nbsp; For Livi & Nora</p>
+        <p class="g-letter-greeting">Dear girls,</p>
+        <p class="g-letter-body">
+          You already know we're going to <em>México</em> this summer.<br><br>
+          But knowing <em>where</em> is the least interesting part.<br><br>
+          What you don't know yet is <em>what we're going to do there.</em><br><br>
+          And trust me — you're not ready.
+        </p>
+        <p class="g-letter-sig">— Dad</p>
+        <p class="g-letter-ps">P.S. More details dropping every month. Chapter 2 lands in April. 🌿</p>
+      </div>
+      <div class="g-scroll-hint">
+        <span>Keep reading</span>
+        <div class="g-scroll-arrow"></div>
+      </div>
+    </section>
+
+    <section id="g-screen-reveal">
+      <div class="g-grain"></div>
+      <div class="g-glow"></div>
+      <p class="g-chapter-label">The Lahoud Edit &nbsp;·&nbsp; Chapter 01</p>
+      <h1 class="g-reveal-title">This<br><em>Summer.</em></h1>
+      <p class="g-reveal-sub">10 days · México · the four of us</p>
+
+      <div class="g-moodboard">
+        <div class="g-mood-card"><span class="g-mood-emoji">🌮</span><span class="g-mood-label">Food</span><span class="g-mood-sub">Like nothing at home</span></div>
+        <div class="g-mood-card"><span class="g-mood-emoji">📸</span><span class="g-mood-label">Photos</span><span class="g-mood-sub">Your feed will thank you</span></div>
+        <div class="g-mood-card"><span class="g-mood-emoji">🛍️</span><span class="g-mood-label">Markets</span><span class="g-mood-sub">Art, fashion, finds</span></div>
+        <div class="g-mood-card"><span class="g-mood-emoji">☕</span><span class="g-mood-label">Coffee</span><span class="g-mood-sub">Rooftop café culture</span></div>
+        <div class="g-mood-card"><span class="g-mood-emoji">🌊</span><span class="g-mood-label">Water</span><span class="g-mood-sub">More than a beach</span></div>
+        <div class="g-mood-card"><span class="g-mood-emoji">✨</span><span class="g-mood-label">Moments</span><span class="g-mood-sub">You'll talk about forever</span></div>
+      </div>
+
+      <div class="g-chapters">
+        <p class="g-chapters-label">The Lahoud Edit — Chapters dropping this spring</p>
+        <div class="g-chapter-row"><div class="g-ch-dot live"></div><span class="g-ch-month">March</span><span class="g-ch-desc">Chapter 01 — Something's Coming</span><span class="g-ch-tag live">Now</span></div>
+        <div class="g-chapter-row"><div class="g-ch-dot coming"></div><span class="g-ch-month">April</span><span class="g-ch-desc">Chapter 02 — The City & The Secret</span><span class="g-ch-tag soon">Soon</span></div>
+        <div class="g-chapter-row"><div class="g-ch-dot coming"></div><span class="g-ch-month">May</span><span class="g-ch-desc">Chapter 03 — The Beautiful City</span><span class="g-ch-tag soon">Soon</span></div>
+        <div class="g-chapter-row"><div class="g-ch-dot locked"></div><span class="g-ch-month">June</span><span class="g-ch-desc">Chapter 04 — The Grand Finale</span><span class="g-ch-tag locked">Locked</span></div>
+      </div>
+
+      <div class="g-countdown">
+        <p class="g-cd-label">We leave in</p>
+        <div class="g-cd-row">
+          <div class="g-cd-unit"><span class="g-cd-num" id="g-cd-days">—</span><span class="g-cd-u">Days</span></div>
+          <span class="g-cd-dot">·</span>
+          <div class="g-cd-unit"><span class="g-cd-num" id="g-cd-hrs">—</span><span class="g-cd-u">Hours</span></div>
+          <span class="g-cd-dot">·</span>
+          <div class="g-cd-unit"><span class="g-cd-num" id="g-cd-min">—</span><span class="g-cd-u">Minutes</span></div>
+          <span class="g-cd-dot">·</span>
+          <div class="g-cd-unit"><span class="g-cd-num" id="g-cd-sec">—</span><span class="g-cd-u">Seconds</span></div>
+        </div>
+      </div>
+
+      <p class="g-footer-sig">The Lahoud Edit, 2026</p>
+    </section>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     EZRA EXPERIENCE
+════════════════════════════ -->
+<div id="ezra-experience">
+  <div class="e-body">
+    <button class="e-skip-btn" id="e-skipBtn" onclick="eSkipBoot()">SKIP INTRO ▶</button>
+
+    <section class="e-slide" id="e-screen-boot">
+      <div id="e-bootLines"></div>
+    </section>
+
+    <section class="e-slide" id="e-screen-classified" style="display:none;">
+      <div class="e-file-stamp">
+        <span class="e-file-number">FILE NO. 001 // LAHOUD FAMILY // EYES ONLY</span>
+        <span class="e-classified-word">CLASSIFIED</span>
+        <p class="e-file-title">The Lahoud Files</p>
+        <p class="e-file-sub">// TRANSMISSION INCOMING //</p>
+      </div>
+    </section>
+
+    <section class="e-slide" id="e-screen-main" style="display:none; flex-direction:column; justify-content:flex-start; padding-top:0;">
+      <div class="e-top-bar">
+        <span>THE LAHOUD FILES // DROP 001</span>
+        <span id="e-liveTime"></span>
+      </div>
+      <div class="e-main-content">
+        <p class="e-transmission">⬤ LIVE TRANSMISSION</p>
+        <h1 class="e-main-heading">THIS<br><span class="e-red">SUMMER.</span></h1>
+        <p class="e-main-sub">// 4 PEOPLE · 1 COUNTRY · CLASSIFIED DESTINATIONS //</p>
+
+        <div class="e-intel-grid">
+          <div class="e-intel-box"><span class="e-intel-label">// DESTINATION //</span><span class="e-intel-value">MÉXICO 🇲🇽</span></div>
+          <div class="e-intel-box"><span class="e-intel-label">// DEPARTURE //</span><span class="e-intel-value">JULY 13, 2026</span></div>
+          <div class="e-intel-box"><span class="e-intel-label">// STOP 01 //</span><span class="e-intel-value redacted">████████ ████</span></div>
+          <div class="e-intel-box"><span class="e-intel-label">// STOP 02 //</span><span class="e-intel-value redacted">███████ ██████</span></div>
+          <div class="e-intel-box"><span class="e-intel-label">// STOP 03 //</span><span class="e-intel-value redacted">███ ██████</span></div>
+          <div class="e-intel-box"><span class="e-intel-label">// STOP 04 //</span><span class="e-intel-value redacted">██████ ████</span></div>
+        </div>
+
+        <div class="e-drops-section">
+          <p class="e-drops-title">// INTEL DROPS — INCOMING TRANSMISSIONS //</p>
+          <div class="e-drop-row"><div class="e-drop-status live"></div><span class="e-drop-month">MARCH</span><span class="e-drop-name">DROP 001 — Mission Initiated</span><span class="e-drop-badge live">LIVE</span></div>
+          <div class="e-drop-row"><div class="e-drop-status pending"></div><span class="e-drop-month">APRIL</span><span class="e-drop-name">DROP 002 — Stops 1 & 2 Declassified</span><span class="e-drop-badge soon">SOON</span></div>
+          <div class="e-drop-row"><div class="e-drop-status pending"></div><span class="e-drop-month">MAY</span><span class="e-drop-name">DROP 003 — Stop 3 Declassified</span><span class="e-drop-badge soon">SOON</span></div>
+          <div class="e-drop-row"><div class="e-drop-status locked"></div><span class="e-drop-month">JUNE</span><span class="e-drop-name">DROP 004 — Final Destination UNLOCKED</span><span class="e-drop-badge locked">LOCKED</span></div>
+        </div>
+
+        <div class="e-countdown">
+          <p class="e-cd-label">// T-MINUS TO DEPARTURE //</p>
+          <div class="e-cd-boxes">
+            <div class="e-cd-box"><span class="e-cd-num" id="e-cd-days">—</span><span class="e-cd-unit">DAYS</span></div>
+            <span class="e-cd-sep">:</span>
+            <div class="e-cd-box"><span class="e-cd-num" id="e-cd-hrs">—</span><span class="e-cd-unit">HRS</span></div>
+            <span class="e-cd-sep">:</span>
+            <div class="e-cd-box"><span class="e-cd-num" id="e-cd-min">—</span><span class="e-cd-unit">MIN</span></div>
+            <span class="e-cd-sep">:</span>
+            <div class="e-cd-box"><span class="e-cd-num" id="e-cd-sec">—</span><span class="e-cd-unit">SEC</span></div>
+          </div>
+        </div>
+
+        <p class="e-footer-line">MORE INTEL DROPS INCOMING // STAY TUNED // LAHOUD FAMILY 2026</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════
+// NAVIGATION
+// ════════════════════════════
+function launchGirls() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('girls-experience').style.display = 'block';
+  document.getElementById('backBtn').classList.add('show');
+  window.scrollTo(0,0);
+  initGirls();
+}
+
+function launchEzra() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('ezra-experience').style.display = 'block';
+  document.getElementById('backBtn').classList.add('show');
+  window.scrollTo(0,0);
+  initEzra();
+}
+
+function goBack() {
+  document.getElementById('landing').style.display = 'flex';
+  document.getElementById('girls-experience').style.display = 'none';
+  document.getElementById('ezra-experience').style.display = 'none';
+  document.getElementById('backBtn').classList.remove('show');
+  window.scrollTo(0,0);
+  // Reset girls
+  document.getElementById('g-screen-reveal').classList.remove('visible');
+  // Reset ezra
+  resetEzra();
+}
+
+// ════════════════════════════
+// GIRLS LOGIC
+// ════════════════════════════
+let girlsInited = false;
+function initGirls() {
+  if (girlsInited) return;
+  girlsInited = true;
+
+  const reveal = document.getElementById('g-screen-reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  obs.observe(reveal);
+
+  window.addEventListener('scroll', () => {
+    const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('g-progressBar').style.width = (pct || 0) + '%';
+  });
+
+  function gTick() {
+    const target = new Date('2026-07-13T00:00:00');
+    const diff = target - new Date();
+    if (diff <= 0) return;
+    document.getElementById('g-cd-days').textContent = String(Math.floor(diff/86400000)).padStart(3,'0');
+    document.getElementById('g-cd-hrs').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('g-cd-min').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('g-cd-sec').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  gTick();
+  setInterval(gTick, 1000);
+}
+
+// ════════════════════════════
+// EZRA LOGIC
+// ════════════════════════════
+let ezraInited = false;
+let eBooting = false;
+let eBootIndex = 0;
+let eBootInterval = null;
+let eCountdownInterval = null;
+let eClockInterval = null;
+
+const bootMessages = [
+  '> INITIALIZING LAHOUD FAMILY SYSTEMS...',
+  '> LOCATION: CLASSIFIED',
+  '> CLEARANCE LEVEL: FAMILY ONLY',
+  '> LOADING SECURE TRANSMISSION...',
+  '> DECRYPTING FILE 001...',
+  '> ████████████████ 100%',
+  '> ACCESS GRANTED.',
+  '> WELCOME, LAHOUD FAMILY.',
+  '',
+  '> OPENING FILE...',
+];
+
+function resetEzra() {
+  ezraInited = false;
+  eBooting = false;
+  eBootIndex = 0;
+  clearInterval(eCountdownInterval);
+  clearInterval(eClockInterval);
+  document.getElementById('e-bootLines').innerHTML = '';
+  document.getElementById('e-screen-boot').style.display = 'flex';
+  document.getElementById('e-screen-classified').style.display = 'none';
+  document.getElementById('e-screen-main').style.display = 'none';
+  document.getElementById('e-skipBtn').classList.remove('show');
+}
+
+function initEzra() {
+  if (ezraInited) return;
+  ezraInited = true;
+  eBooting = true;
+  eBootIndex = 0;
+  document.getElementById('e-skipBtn').classList.add('show');
+  setTimeout(eShowNextLine, 400);
+}
+
+function eShowNextLine() {
+  if (!eBooting) return;
+  if (eBootIndex >= bootMessages.length) {
+    setTimeout(eShowClassified, 600);
+    return;
+  }
+  const container = document.getElementById('e-bootLines');
+  const line = document.createElement('div');
+  line.className = 'e-boot-line';
+  line.textContent = bootMessages[eBootIndex];
+  if (eBootIndex === bootMessages.length - 1) line.classList.add('blink');
+  container.appendChild(line);
+  setTimeout(() => line.classList.add('show'), 30);
+  eBootIndex++;
+  const msg = bootMessages[eBootIndex - 1];
+  const delay = msg === '' ? 200 : msg.includes('████') ? 800 : 350 + Math.random() * 200;
+  setTimeout(eShowNextLine, delay);
+}
+
+function eSkipBoot() {
+  eBooting = false;
+  document.getElementById('e-skipBtn').classList.remove('show');
+  eShowClassified();
+}
+
+function eShowClassified() {
+  eBooting = false;
+  document.getElementById('e-screen-boot').style.display = 'none';
+  document.getElementById('e-screen-classified').style.display = 'flex';
+  document.getElementById('e-skipBtn').classList.remove('show');
+  setTimeout(eShowMain, 2800);
+}
+
+function eShowMain() {
+  document.getElementById('e-screen-classified').style.display = 'none';
+  const main = document.getElementById('e-screen-main');
+  main.style.display = 'flex';
+
+  // countdown
+  function eTick() {
+    const diff = new Date('2026-07-13T00:00:00') - new Date();
+    if (diff <= 0) return;
+    document.getElementById('e-cd-days').textContent = String(Math.floor(diff/86400000)).padStart(3,'0');
+    document.getElementById('e-cd-hrs').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('e-cd-min').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('e-cd-sec').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  eTick();
+  eCountdownInterval = setInterval(eTick, 1000);
+
+  // clock
+  function eClock() {
+    document.getElementById('e-liveTime').textContent = new Date().toUTCString().replace('GMT','UTC');
+  }
+  eClock();
+  eClockInterval = setInterval(eClock, 1000);
+}
+</script>
+</body>
+</html>
